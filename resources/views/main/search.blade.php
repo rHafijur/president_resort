@@ -51,10 +51,10 @@
         <form action="{{route('search')}}" method="get">
           <div class="border">
             <div class="ser-in-box">
-                <input name="check_in" value="{{$check_in}}" placeholder="Arival Date" type="text" class="form-control datepicker-example8" required>
+                <input name="check_in" id="check_in" value="{{$check_in}}" placeholder="Arival Date" type="text" class="form-control datepicker-example8" required>
             </div>
             <div class="ser-in-box">
-                <input type="text" value="{{$check_out}}" name="check_out" placeholder="Departure Date" class="form-control datepicker-example8" required>
+                <input type="text" id="check_out" value="{{$check_out}}" name="check_out" placeholder="Departure Date" class="form-control datepicker-example8" required>
             </div>
             <div class="ser-in-box">
                 <div class="select-box">
@@ -130,11 +130,19 @@
               <div id="rooms"></div>
               <div class="total">
               </div>
-              <button style="display: none;" class="btn btn-success" id="proceed">Proceed</button>
+              <button style="display: none;" onclick="formSubmit()" class="btn btn-success" id="proceed">Proceed</button>
             </div>
         </div>
     </section>
 </div>
+<form action="{{route("booking.proceed")}}" method="GET" id="submitForm">
+  @csrf
+  <input type="hidden" value="{{$check_in}}" name="check_in">
+  <input type="hidden" value="{{$check_out}}" name="check_out">
+  <input type="hidden" value="{{$adults}}" name="adults">
+  <input type="hidden" value="{{$children}}" name="children">
+  <input type="hidden" value="" name="rooms" id="inp_rooms">
+</form>
 @endsection
 @push('script')
 <script>
@@ -150,7 +158,7 @@
     h1+=`<ul>`;
     $("#rooms").html(h1);
     if(rooms.length>0){
-      $(".total").html(`<span>৳ `+total+`</span> Total`);
+      $(".total").html(`<span>৳ `+total * {{$nights}} +`</span> Total`);
       $("#proceed").show();
     }else{
       $(".total").html("");
@@ -175,5 +183,33 @@
     rooms=rs;
     generatehtml();
   }
+  function formSubmit(){
+    var ids=[];
+    for(room of rooms){
+      ids.push(room.id);
+    }
+    $("#inp_rooms").val(JSON.stringify(ids));
+    $("#submitForm").submit();
+  }
+</script>
+<script>
+  function dateToYMD(date) {
+    var strArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var d = date.getDate();
+    var m = strArray[date.getMonth()];
+    var y = date.getFullYear();
+    return m + ' ' + (d <= 9 ? '0' + d : d) + ', ' + y;
+}
+  $('#check_in').Zebra_DatePicker({
+    format: 'M d, Y',
+    onClose: function() {
+      var date=new Date(Date.parse($("#check_in").val()) + 1 * 24 * 60 * 60 * 1000);
+      $('#check_out').Zebra_DatePicker({
+          format: 'M d, Y',
+          direction: [dateToYMD(date), false]
+      });
+      console.log();
+    }
+  })
 </script>
 @endpush

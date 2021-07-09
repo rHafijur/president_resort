@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\GalleryImageController;
 
 /*
@@ -21,9 +23,15 @@ use App\Http\Controllers\GalleryImageController;
 // });
 Route::get('/',[PageController::class,'index'])->name('home');
 Route::get('/search',[PageController::class,'search'])->name('search');
+Route::get('/booking/proceed',[BookingController::class,'proceed'])->name('booking.proceed');
+Route::post('/payment',[PaymentController::class,'payment'])->name('payment');
+Route::post('/payment_success',[PaymentController::class,'success'])->name('payment_success');
+Route::post('/payment_cancel',[PaymentController::class,'cancel'])->name('payment_cancel');
+Route::post('/payment_failed',[PaymentController::class,'failed'])->name('payment_failed');
 Route::get('/rooms',[RoomController::class,'index'])->name('room.all');
 Route::get('room/{id}',[RoomController::class,'single'])->name('room.single');
 Route::get('gallery',[GalleryImageController::class,'index'])->name('gallery');
+Route::get('booking/success',[BookingController::class,'booking_success'])->name('booking_success');
 
 
 Route::group(['prefix' => 'admin'], function () {

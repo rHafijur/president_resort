@@ -8,6 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'customer_id',
+        'payment_id',
+        'name',
+        'email',
+        'phone',
+        'address',
+        'city',
+        'country',
+        'post_code',
+        'nid',
+        'company',
+    ];
+
     public function payment(){
         return $this->belongsTo('App\Models\Payment');
     }

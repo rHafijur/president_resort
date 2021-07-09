@@ -50,39 +50,41 @@
         <section class="container clearfix">
           <div class="search-sec">
             <div class="overlay">
-              <div class="border">
-                <div class="ser-in-box">
-                  <input placeholder="Arival Date" type="text" class="form-control datepicker-example8">
-                </div>
-                <div class="ser-in-box">
-                  <input type="text" placeholder="Departure Date" class="form-control datepicker-example8">
-                </div>
-                <div class="ser-in-box">
-                  <div class="select-box">
-                    <select name="selectMenu" class="select-menu">
-                      <option value="default">Adults</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                    </select>
+              <form action="{{route('search')}}" method="get">
+                <div class="border">
+                  <div class="ser-in-box">
+                      <input name="check_in" id="check_in" value="" placeholder="Arival Date" type="text" class="form-control datepicker-example8" required>
                   </div>
-                </div>
-                <div class="ser-in-box">
-                  <div class="select-box">
-                    <select name="selectMenu" class="select-menu">
-                      <option value="default">Children</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                    </select>
+                  <div class="ser-in-box">
+                      <input type="text" id="check_out" value="" name="check_out" placeholder="Departure Date" class="form-control datepicker-example8" required>
                   </div>
-                </div>
-                <div class="ser-in-box chk-button">
-                  <button type="submit" class="res-btn">Check Availability</button>
-                </div>
-              </div>
+                  <div class="ser-in-box">
+                      <div class="select-box">
+                      <select name="adults" class="select-menu" required>
+                          <option value="">Adults</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                      </select>
+                      </div>
+                  </div>
+                  <div class="ser-in-box">
+                      <div class="select-box">
+                      <select name="children" class="select-menu">
+                          <option value="0">Children</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                      </select>
+                      </div>
+                  </div>
+                  <div class="ser-in-box chk-button">
+                      <button type="submit" class="res-btn">Search</button>
+                  </div>
+                  </div>
+              </form>
             </div>
           </div>
         </section>
@@ -461,3 +463,25 @@
       <!-- News and Events  style-->
      
 @endsection
+@push('script')
+    <script>
+      function dateToYMD(date) {
+        var strArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var d = date.getDate();
+        var m = strArray[date.getMonth()];
+        var y = date.getFullYear();
+        return m + ' ' + (d <= 9 ? '0' + d : d) + ', ' + y;
+    }
+      $('#check_in').Zebra_DatePicker({
+        format: 'M d, Y',
+        onClose: function() {
+          var date=new Date(Date.parse($("#check_in").val()) + 1 * 24 * 60 * 60 * 1000);
+          $('#check_out').Zebra_DatePicker({
+              format: 'M d, Y',
+              direction: [dateToYMD(date), false]
+          });
+          console.log();
+        }
+      })
+    </script>
+@endpush
