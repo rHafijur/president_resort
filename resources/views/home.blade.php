@@ -154,42 +154,20 @@
         </div>
         <div class="room-slider">
           <div class="roomsuite-slider">
+            @foreach ($rooms as $room)
             <div class="room-suite">
-              <div class="item"><a href="room1.html">
-                  <div class="ro-img"><img src="{{asset('assets/images/rooms/1.jpg')}}" alt="" class="img-responsive"></div>
+              <div class="item"><a href="{{route('room.single',['id'=>$room->id])}}">
+                  <div class="ro-img"><img src='{{asset("storage/{$room->image}")}}'' alt="{{$room->title}}" class="img-responsive"></div>
                   <div class="ro-txt">
                     <div class="left-h pull-left">
-                      <p>Deluxe Room</p>
+                      <p>{{$room->title}}</p>
                     </div>
                     <div class="right-p pull-right">
-                      <p>$215<span>Per Night</span></p>
+                      <p>৳{{$room->rent}}<span>Per Night</span></p>
                     </div>
                   </div></a></div>
             </div>
-            <div class="room-suite">
-              <div class="item"><a href="room1.html">
-                  <div class="ro-img"><img src="{{asset('assets/images/rooms/2.jpg')}}" alt="" class="img-responsive"></div>
-                  <div class="ro-txt">
-                    <div class="left-h pull-left">
-                      <p>Deluxe Room</p>
-                    </div>
-                    <div class="right-p pull-right">
-                      <p>$215<span>Per Night</span></p>
-                    </div>
-                  </div></a></div>
-            </div>
-            <div class="room-suite">
-              <div class="item"><a href="room2.html">
-                  <div class="ro-img"><img src="{{asset('assets/images/rooms/3.jpg')}}" alt="" class="img-responsive"></div>
-                  <div class="ro-txt">
-                    <div class="left-h pull-left">
-                      <p>Deluxe Room</p>
-                    </div>
-                    <div class="right-p pull-right">
-                      <p>$215<span>Per Night</span></p>
-                    </div>
-                  </div></a></div>
-            </div>
+            @endforeach
           </div>
         </div>
       </section>
@@ -408,96 +386,27 @@
         </div>
         <div class="testimonials-wrapper">
           <div class="testimonial-sliders">
+            @foreach ($testimonials as $testimonial)
             <div class="item">
               <div class="test-cont">
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur.</p>
+                <p>{{$testimonial->comment}}</p>
               </div>
               <div class="test-bot">
-                <div class="tst-img"><img src="{{asset('assets/images/testimonials/1.png')}}" alt="" class="img-responsive"></div>
+                <div class="tst-img"><img src="{{asset('storage/'.$testimonial->picture)}}" alt="Customer's image" class="img-responsive"></div>
                 <div class="client_name">
-                  <h5><a href="testimonials.html">Mark John - <span>Nescom Technology- Director</span></a></h5>
+                  <h5><a href="testimonials.html">{{$testimonial->name}} - <span>{{$testimonial->designation}}</span></a></h5>
                   <ul>
+                    @for ($i = 0; $i < $testimonial->stars; $i++)
                     <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
+                    @endfor
+                    @for ($i = 0; $i < 5 - $testimonial->stars; $i++)
+                    <li><a href="#"><i class="fa fa-star-o"></i></a></li>
+                    @endfor
                   </ul>
                 </div>
               </div>
             </div>
-            <div class="item">
-              <div class="test-cont">
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur.</p>
-              </div>
-              <div class="test-bot">
-                <div class="tst-img"><img src="{{asset('assets/images/testimonials/2.png')}}" alt="" class="img-responsive"></div>
-                <div class="client_name">
-                  <h5><a href="testimonials.html">Mark John - <span>Nescom Technology- Director</span></a></h5>
-                  <ul>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="test-cont">
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur.</p>
-              </div>
-              <div class="test-bot">
-                <div class="tst-img"><img src="{{asset('assets/images/testimonials/3.png')}}" alt="" class="img-responsive"></div>
-                <div class="client_name">
-                  <h5><a href="testimonials.html">Mark John - <span>Nescom Technology- Director</span></a></h5>
-                  <ul>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="test-cont">
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur.</p>
-              </div>
-              <div class="test-bot">
-                <div class="tst-img"><img src="{{asset('assets/images/testimonials/4.png')}}" alt="" class="img-responsive"></div>
-                <div class="client_name">
-                  <h5><a href="testimonials.html">Mark John - <span>Nescom Technology- Director</span></a></h5>
-                  <ul>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="test-cont">
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur.</p>
-              </div>
-              <div class="test-bot">
-                <div class="tst-img"><img src="{{asset('assets/images/testimonials/5.png')}}" alt="" class="img-responsive"></div>
-                <div class="client_name">
-                  <h5><a href="testimonials.html">Mark John - <span>Nescom Technology- Director</span></a></h5>
-                  <ul>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                    <li><a href="#"><i class="fa fa-star"></i></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            @endforeach
           </div>
         </div>
       </section>

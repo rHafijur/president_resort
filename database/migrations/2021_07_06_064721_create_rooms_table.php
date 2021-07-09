@@ -18,8 +18,8 @@ class CreateRoomsTable extends Migration
             $table->string("title");
             $table->text("description");
             $table->float("rent");
-            $table->integer("adults");
-            $table->integer("children")->default(0);
+            $table->integer("capacity");
+            // $table->integer("children")->default(0);
             $table->string('image')->nullable();
             $table->text("images")->default("[]");
             $table->boolean("has_tv")->default(0);

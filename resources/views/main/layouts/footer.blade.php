@@ -99,5 +99,6 @@
   <script src="{{asset('assets/vendors/jquery-ui-1.11.4/jquery-ui.min.js')}}"></script>
   <script src="{{asset('assets/vendors/imagelightbox/imagelightbox.min.js')}}"></script>
   <script src="{{asset('assets/js/custom.js')}}"></script>
+  @stack('script')
 </body>
 </html>

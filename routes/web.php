@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\GalleryImageController;
 
 /*
@@ -15,9 +16,12 @@ use App\Http\Controllers\GalleryImageController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
+Route::get('/',[PageController::class,'index'])->name('home');
+Route::get('/search',[PageController::class,'search'])->name('search');
+Route::get('/rooms',[RoomController::class,'index'])->name('room.all');
 Route::get('room/{id}',[RoomController::class,'single'])->name('room.single');
 Route::get('gallery',[GalleryImageController::class,'index'])->name('gallery');
 
