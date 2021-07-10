@@ -136,7 +136,6 @@
     </section>
 </div>
 <form action="{{route("booking.proceed")}}" method="GET" id="submitForm">
-  @csrf
   <input type="hidden" value="{{$check_in}}" name="check_in">
   <input type="hidden" value="{{$check_out}}" name="check_out">
   <input type="hidden" value="{{$adults}}" name="adults">

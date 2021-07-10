@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\VoyagerBookingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\GalleryImageController;
 
@@ -36,4 +37,7 @@ Route::get('booking/success',[BookingController::class,'booking_success'])->name
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    Route::get('room/search',[VoyagerBookingController::class,'room_search'])->name('room_search');
+    Route::get('booking/proceed',[BookingController::class,'admin_proceed'])->name('admin.booking.proceed');
+    Route::post('booking/book',[BookingController::class,'admin_book'])->name('admin.booking.book');
 });
