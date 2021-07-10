@@ -63,7 +63,9 @@
                                     @foreach ($rooms as $room)
                                         <tr>
                                             <td>
+                                                @if ($room->room_holds->count()<1)
                                                 <input onchange="inpChanged()" type="checkbox" class="inp_ids" name="room_id" value="{{$room->id}}">
+                                                @endif
                                             </td>
                                             <td>{{$room->id}}</td>
                                             <td>{{$room->title}}</td>

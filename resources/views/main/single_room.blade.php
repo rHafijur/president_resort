@@ -9,7 +9,7 @@
       <section class="row final-breadcrumb">
         <div class="container">
           <ol class="breadcrumb">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="{{route("home")}}">Home</a></li>
             <li class="active">{{$room->title}}</li>
           </ol>
         </div>
@@ -26,17 +26,18 @@
                   <h6>starting from</h6>
                   <p>৳{{$room->rent}}<span>/ night</span></p>
                 </div>
+                <form action="{{route('search')}}" method="get">
                 <div class="book-form">
                   <div class="col-md-12"><b>Arrive</b>
-                    <input placeholder="Arival Date" type="text" class="form-control datepicker-example8">
+                    <input id="check_in" name="check_in" placeholder="Arival Date" type="text" class="form-control datepicker-example8">
                   </div>
                   <div class="col-md-12"><b>Departure</b>
-                    <input type="text" placeholder="Departure Date" class="form-control datepicker-example8">
+                    <input id="check_out" name="check_out" type="text" placeholder="Departure Date" class="form-control datepicker-example8">
                   </div>
                   <div class="col-md-12"><b>Adults</b>
                     <div class="select-box">
-                      <select name="selectMenu" class="select-menu">
-                        <option value="default">Adults</option>
+                      <select name="adults" class="select-menu">
+                        <option value="">Adults</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -46,8 +47,8 @@
                   </div>
                   <div class="col-md-12"><b>children</b>
                     <div class="select-box">
-                      <select name="selectMenu" class="select-menu">
-                        <option value="default">Children</option>
+                      <select name="children" class="select-menu">
+                        <option value="">Children</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -61,6 +62,7 @@
                     </div>
                   </div>
                 </div>
+                </form>
               </div>
               <!-- Booking Form style-->
               <!-- Budget Rooms style-->
@@ -70,34 +72,15 @@
                 </div>
                 <div class="popular-post">
                   <ul>
+                    @foreach (App\Models\Room::where('id','<>',$room->id)->limit(4)->get() as $_room)
                     <li class="img-cap-effect">
-                      <div class="img-box"><a href="news-details.html"><img src="{{asset('assets/images/rooms/4.jpg')}}" alt=""></a></div>
-                      <div class="content"><a href="#">
-                          <h4>Economy room</h4></a>
-                        <h6>$199 <span>Per Night</span></h6>
+                      <div class="img-box"><a href="{{route('room.single',[$_room->id])}}"><img style="height:92px;weight:120px" src="{{asset('storage/'.$_room->image)}}" alt=""></a></div>
+                      <div class="content"><a href="{{route('room.single',[$_room->id])}}">
+                          <h4>{{$_room->title}}</h4></a>
+                        <h6>৳{{$_room->rent}} <span>Per Night</span></h6>
                       </div>
                     </li>
-                    <li class="img-cap-effect">
-                      <div class="img-box"><a href="news-details.html"><img src="{{asset('assets/images/rooms/5.jpg')}}" alt=""></a></div>
-                      <div class="content"><a href="#">
-                          <h4>Garden family room</h4></a>
-                        <h6>$79 <span>Per Night</span></h6>
-                      </div>
-                    </li>
-                    <li class="img-cap-effect">
-                      <div class="img-box"><a href="news-details.html"><img src="{{asset('assets/images/rooms/6.jpg')}}" alt=""></a></div>
-                      <div class="content"><a href="#">
-                          <h4>double Deluxe room</h4></a>
-                        <h6>$235 <span>Per Night</span></h6>
-                      </div>
-                    </li>
-                    <li class="img-cap-effect">
-                      <div class="img-box"><a href="news-details.html"><img src="{{asset('assets/images/rooms/7.jpg')}}" alt=""></a></div>
-                      <div class="content"><a href="#">
-                          <h4>super Deluxe room</h4></a>
-                        <h6>$185 <span>Per Night</span></h6>
-                      </div>
-                    </li>
+                    @endforeach
                   </ul>
                 </div>
               </div>
@@ -219,35 +202,32 @@
                     </tbody>
                   </table>
                 </div>
-                <h5>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliqu id etx ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum.</h5><a href="booking.html" class="res-btn">Book NOw this room <i class="fa fa-arrow-right"></i></a>
               </div>
               <!-- Room Overview style-->
-              <!-- Have any question style-->
-              <form id="contactForm" action="http://designarc.biz/demos/lakecious/sendemail.php" method="post">
-                <div class="question-wrapper">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h2>Have any question</h2>
-                  </div>
-                  <div class="col-lg-4">
-                    <input id="name" type="text" name="name" placeholder="Name" class="form-control">
-                  </div>
-                  <div class="col-lg-4">
-                    <input id="phone" type="text" name="phone" placeholder="Phone" class="form-control">
-                  </div>
-                  <div class="col-lg-4">
-                    <input id="email" type="text" name="name" placeholder="Email" class="form-control">
-                  </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <textarea id="message" rows="6" name="message" placeholder="Message" class="form-control"></textarea>
-                  </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <button type="submit" class="res-btn">Submit Now <i class="fa fa-arrow-right"></i></button>
-                  </div>
-                </div>
-              </form>
-              <!-- Have any question style-->
             </div>
           </div>
         </div>
       </section>
 @endsection
+@push('script')
+    <script>
+      function dateToYMD(date) {
+        var strArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var d = date.getDate();
+        var m = strArray[date.getMonth()];
+        var y = date.getFullYear();
+        return m + ' ' + (d <= 9 ? '0' + d : d) + ', ' + y;
+    }
+      $('#check_in').Zebra_DatePicker({
+        format: 'M d, Y',
+        onClose: function() {
+          var date=new Date(Date.parse($("#check_in").val()) + 1 * 24 * 60 * 60 * 1000);
+          $('#check_out').Zebra_DatePicker({
+              format: 'M d, Y',
+              direction: [dateToYMD(date), false]
+          });
+          console.log();
+        }
+      })
+    </script>
+@endpush

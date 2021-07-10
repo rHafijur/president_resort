@@ -133,7 +133,7 @@
       <section class="container clearfix common-pad">
         <div class="sec-header">
           <h2>Rooms And Suits</h2>
-          <h3>Pick a room that best suits your taste and budget</h3>
+          <h3>{{setting('site.tagline')}}</h3>
         </div>
         <div class="room-slider">
           <div class="roomsuite-slider">
@@ -162,7 +162,7 @@
           <div class="promo-content">
             <div class="know-top">
               <h2>Know About Us</h2>
-              <h3>Discover what makes us a five star hotel</h3>
+              <h3>{{setting('site.tagline')}}</h3>
               {{setting('about.about_text')}}
             </div>
             <div class="know-bot">
@@ -209,7 +209,7 @@
             <div class="left-pad">
               <div class="sec-header">
                 <h2>Our Resort Values</h2>
-                <h3>Pick a room that best suits your taste and budget</h3>
+                <h3>{{setting('site.tagline')}}</h3>
               </div>
               <div class="tab-title-box">
                 <ul role="tablist" class="clearfix">
@@ -280,7 +280,7 @@
       <section class="container clearfix common-pad testimonials-sec">
         <div class="sec-header">
           <h2>Testimonials</h2>
-          <h3>Pick a room that best suits your taste and budget</h3>
+          <h3>{{setting('site.tagline')}}</h3>
         </div>
         <div class="testimonials-wrapper">
           <div class="testimonial-sliders">

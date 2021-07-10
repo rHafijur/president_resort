@@ -35,14 +35,32 @@ class PaymentController extends Controller
         $data=str_split($data,255);
         // dd($data);
         $rooms=Room::whereIn('id',\json_decode($request->rooms))->get();
+        foreach($rooms as $room){
+            if($room->isHoldByOther($request->check_in,$request->check_out)){
+                return \redirect()->route('search')->with("message","Your are late! Your room got hold by another person","warning");
+            }
+        }
+        foreach($rooms as $room){
+            $byMe=$room->holdByMe($request->check_in,$request->check_out);
+            if($byMe==null){
+                $room->holdRoomForMe($request->check_in,$request->check_out);
+            }else{
+                $byMe->extendTime();
+            }
+        }
         $total=0;
         foreach($rooms as $room){
             $total += $room->rent * $nights;
         }
-        // $url = 'https://secure.aamarpay.com/request.php';
-        $url = 'https://sandbox.aamarpay.com/request.php';
+        if(setting('amarpay.sandbox')==1){
+            $url = 'https://sandbox.aamarpay.com/request.php';
+        }else{
+            $url = 'https://secure.aamarpay.com/request.php';
+        }
+        // dbb74894e82415a2f7ff0ec3a97e4183
+        // aamarpaytest
         $fields = array(
-            'store_id' => 'aamarpaytest',
+            'store_id' => setting('amarpay.amarpay_store_id'),
             'amount' => $total,
             'payment_type' => 'VISA',
             'currency' => 'BDT',
@@ -76,7 +94,8 @@ class PaymentController extends Controller
             'opt_b' => isset($data[1])?$data[1]:"",
             'opt_c' => isset($data[2])?$data[2]:"",
             'opt_d' => isset($data[3])?$data[3]:"",
-            'signature_key' => 'dbb74894e82415a2f7ff0ec3a97e4183');
+            'signature_key' => setting('amarpay.amarpay_signature_key')
+        );
         $fields_string="";
         foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
         $fields_string = rtrim($fields_string, '&'); 
@@ -88,10 +107,13 @@ class PaymentController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $url_forward = str_replace('"', '', stripslashes(curl_exec($ch)));	
+
         curl_close($ch); 
-        // return redirect()->to('https://secure.aamarpay.com'.$url_forward);
-        return redirect()->to('https://sandbox.aamarpay.com'.$url_forward);
-        // return view('student.subscription.payment',compact('package'));
+        if(setting('amarpay.sandbox')==1){
+            return redirect()->to('https://sandbox.aamarpay.com'.$url_forward);
+        }else{
+            return redirect()->to('https://secure.aamarpay.com'.$url_forward);
+        }
     }
 
     public function success(Request $request){

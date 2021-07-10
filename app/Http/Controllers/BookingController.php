@@ -26,6 +26,17 @@ class BookingController extends Controller
         $adults=$request->adults;
         $children=$request->children;
         $rooms=Room::whereIn('id',$rooms)->get();
+        foreach($rooms as $room){
+            if($room->isHoldByOther($request->check_in,$request->check_out)){
+                return \redirect()->back()->with("message","Your are late! Your room got hold by another person","warning");
+            }
+        }
+        foreach($rooms as $room){
+            $byMe=$room->holdByMe($request->check_in,$request->check_out);
+            if($byMe==null){
+                $room->holdRoomForMe($request->check_in,$request->check_out);
+            }
+        }
         return view("main.booking_proceed",compact('rooms','request'));
     }
     public function admin_proceed(Request $request){
@@ -43,6 +54,17 @@ class BookingController extends Controller
         $adults=$request->adults;
         $children=$request->children;
         $rooms=Room::whereIn('id',$rooms)->get();
+        foreach($rooms as $room){
+            if($room->isHoldByOther($request->check_in,$request->check_out)){
+                return \redirect()->back()->with("message","Your are late! Your room got hold by another person","warning");
+            }
+        }
+        foreach($rooms as $room){
+            $byMe=$room->holdByMe($request->check_in,$request->check_out);
+            if($byMe==null){
+                $room->holdRoomForMe($request->check_in,$request->check_out);
+            }
+        }
         return view("admin.booking.proceed",compact('rooms','request'));
     }
     public function booking_success(){

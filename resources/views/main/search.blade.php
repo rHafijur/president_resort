@@ -103,14 +103,18 @@
                             <h2>{{$room->title}}</h2>
                             <p>{{$room->excerpt}}</p>
                             <h3>Room Facility</h3>
-                            <h6>Beach View, Dinner Included, Fitness Area, Hotspot(WiFi), Safe Deposit Swimimng Pool, Pets Allows</h6>
+                            <h6>{{$room->facilities()}}</h6>
                           </div>
                           <div class="media-right">
                             <p>৳{{$room->rent}}<span>Per Night</span></p>
                             <a href="{{route('room.single',['id'=>$room->id])}}">view room</a>
                             <div class="room-button">
+                              @if ($room->room_holds->count()>0)
+                              <button class="btn btn-danger add_button" disabled>On 15 minutes hold</button>
+                              @else
                               <button onclick="addRoom(this,{{$room->id}},{{$room->rent}},'{{$room->title}}')" class="btn btn-success add_button add">Add to list</button>
                               <button style="display: none;" onclick="removeRoom(this,{{$room->id}})" class="btn btn-warning add_button rem">Remove from list</button>
+                              @endif
                             </div>
                           </div>
                         </div>

@@ -19,17 +19,17 @@
   <footer>
     <section class="clearfix footer-wrapper">
       <section class="container clearfix footer-pad">
-        <div class="widget about-us-widget col-md-4 col-sm-6"><a href="index.html"><img src="{{asset('assets/images/footer/logo.png')}}" alt="" class="img-responsive"></a>
-          <p>Lorem ipsum dolor sit amet, consecte- tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.</p><a href="aboutus.html">Read More <i class="fa fa-angle-double-right"></i></a>
-          <ul class="nav">
+        <div class="widget about-us-widget col-md-4 col-sm-6"><a href="{{route('home')}}"><img src="{{asset('storage/'.setting('site.logo'))}}" alt="" class="img-responsive"></a>
+          <p>{{setting('site.description')}}</p>
+          {{-- <ul class="nav">
             <li><a href="#"><i class="fa fa-twitter"></i></a></li>
             <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
             <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
             <li><a href="#"><i class="fa fa-skype"></i></a></li>
             <li><a href="#"><i class="fa fa-pinterest-square"></i></a></li>
-          </ul>
+          </ul> --}}
         </div>
-        <div class="widget widget-links col-md-2 col-sm-6">
+        {{-- <div class="widget widget-links col-md-2 col-sm-6">
           <h4 class="widget_title">Explore</h4>
           <div class="widget-contact-list">
             <ul>
@@ -55,19 +55,19 @@
               <li><a href="booking.html">Booking</a></li>
             </ul>
           </div>
-        </div>
+        </div> --}}
         <div class="widget get-in-touch col-md-4 col-sm-6">
           <h4 class="widget_title">Get In Touch</h4>
           <div class="widget-contact-list">
             <ul>
               <li><i class="fa fa-map-marker"></i>
-                <div class="fleft location_address"><b>Lake Resort</b><br>Lorance 542B, Tailstoi Town 5248 MT, Wordwide Country</div>
+                <div class="fleft location_address"><b>{{setting('site.title')}}</b><br>{{setting('contact.contact_address')}}</div>
               </li>
               <li><i class="fa fa-phone"></i>
-                <div class="fleft contact_no"><a href="tel:+018655248503">+ 01865 524 8503</a>  /  <a href="tel:+12549547854">1254 954 7854</a></div>
+                <div class="fleft contact_no"><a href="tel:{{setting('contact.contact_phone')}}">{{setting('contact.contact_phone')}}</a></div>
               </li>
               <li><i class="fa fa-envelope-o"></i>
-                <div class="fleft contact_mail"><a href="mailto:info@resorthotel.com">info@resorthotel.com</a></div>
+                <div class="fleft contact_mail"><a href="mailto:{{setting('contact.contact_email')}}">{{setting('contact.contact_email')}}</a></div>
               </li>
             </ul>
           </div>
@@ -77,10 +77,10 @@
     <section class="container clearfix footer-b-pad">
       <div class="footer-copy">
         <div class="pull-left fo-txt">
-          <p>Copyright © Resort and Hotel 2016. All rights reserved. </p>
+          <p>Copyright © {{setting('site.title')}} {{date("Y")}}. All rights reserved. </p>
         </div>
         <div class="pull-right fo-txt">
-          <p>Created by: <a href="http://themeforest.net/user/designarc">DesignArc</a></p>
+          <p>Developed by: <a href="https://www.facebook.com/hafijurrahman.sakib">Hafijur Rahman</a></p>
         </div>
       </div>
     </section>
