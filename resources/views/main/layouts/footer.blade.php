@@ -6,8 +6,9 @@
           <h2>STAY TUNED WITH US</h2>
           <h3>Get our updated offers, discounts, events and much more!</h3>
         </div>
-        <form action="#" method="post" class="this-form input-group">
-          <input type="email" placeholder="Enter your email address" class="form-control"><span class="input-group-addon">
+        <form action="{{route("email_subscribe")}}" method="post" class="this-form input-group">
+          @csrf
+          <input type="email" placeholder="Enter your email address" name="email" class="form-control"><span class="input-group-addon">
             <button type="submit" class="res-btn">subscribe<i class="fa fa-arrow-right"></i></button></span>
         </form>
       </div>

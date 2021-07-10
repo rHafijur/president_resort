@@ -6,42 +6,23 @@
     <div id="minimal-bootstrap-carousel" data-ride="carousel" class="carousel home2carousel slide carousel-fade shop-slider">
         <!-- Wrapper for slides-->
         <div role="listbox" class="carousel-inner">
-          <div style="background-image: url({{asset('assets/images/slider/1.jpg')}});backgroudn-position: center right;" class="item active slide-1">
+          @foreach (App\Models\HomeSlider::all() as $slider)
+          <div style="background-image: url({!!asset('storage/'.str_replace("\\","/",$slider->background))!!});backgroudn-position: center right;" class="item @if($loop->iteration==1) active @endif slide-{{$loop->iteration}}">
             <div class="carousel-caption nhs-caption nhs-caption1">
               <div class="thm-container">
                 <div class="box valign-middle">
                   <div class="content text-left">
-                    <h2 data-animation="animated fadeInUp" class="this-title">Spend Your Dream Holidays</h2>
-                    <p data-animation="animated fadeInDown">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos quit.</p><a data-animation="animated fadeInRight" href="#" class="nhs-btn">know more</a>
+                    <h2 data-animation="animated fadeInUp" class="this-title">{{$slider->heading}}</h2>
+                    <p data-animation="animated fadeInDown">{{$slider->sub_heading}}</p>
+                    @if ($slider->link)
+                    <a data-animation="animated fadeInRight" href="{{$slider->link}}" class="nhs-btn">know more</a>
+                    @endif
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div style="background-image: url({{asset('assets/images/slider/2.jpg')}});backgroudn-position: center right;" class="item slide-2">
-            <div class="carousel-caption nhs-caption nhs-caption2">
-              <div class="thm-container">
-                <div class="box valign-middle">
-                  <div class="content text-center">
-                    <h2 data-animation="animated fadeInUp" class="this-title">Spend Your Dream Holidays</h2>
-                    <p data-animation="animated fadeInDown">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos quit.</p><a data-animation="animated fadeInRight" href="#" class="nhs-btn">know more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="background-image: url({{asset('assets/images/slider/3.jpg')}});backgroudn-position: center right;" class="item slide-3">
-            <div class="carousel-caption nhs-caption nhs-caption3">
-              <div class="thm-container">
-                <div class="box valign-middle">
-                  <div class="content text-left">
-                    <h2 data-animation="animated fadeInUp" class="this-title">Make Your Memorable Holidays in a LakeResort</h2>
-                    <p data-animation="animated fadeInDown">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos quit.</p><a data-animation="animated fadeInRight" href="#" class="nhs-btn">know more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          @endforeach
         </div>
         <!-- Controls--><a href="#minimal-bootstrap-carousel" role="button" data-slide="prev" class="left carousel-control"><i class="fa fa-angle-left"></i><span class="sr-only">Previous</span></a><a href="#minimal-bootstrap-carousel" role="button" data-slide="next" class="right carousel-control"><i class="fa fa-angle-right"></i><span class="sr-only">Next</span></a>
       </div>
@@ -91,7 +72,7 @@
       </div>
       <!-- Search style-->
       <!-- Welcome to Lake Resort style-->
-      <section class="wel-wrapper clearfix">
+      {{-- <section class="wel-wrapper clearfix">
         <section class="container clearfix wel-pad">
           <div class="wel-content">
             <h1>Welcome to Lake Resort</h1>
@@ -145,7 +126,7 @@
                 </div></a></div>
           </div>
         </section>
-      </section>
+      </section> --}}
       <!-- Welcome to Lake Resort style-->
       
       <!-- Rooms And Suits style-->
@@ -176,13 +157,13 @@
       <!-- Rooms And Suits style-->
       <!-- Know About Us style-->
       <div class="fluid-know-area">
-        <div class="work-image-ser"><img src="{{asset('assets/images/know-about-us/1.jpg')}}" alt="" class="img-responsive"></div>
+        <div class="work-image-ser"><img src="{{asset('storage/'.setting('about.about_background'))}}" alt="" class="img-responsive"></div>
         <div class="service-promo">
           <div class="promo-content">
             <div class="know-top">
               <h2>Know About Us</h2>
               <h3>Discover what makes us a five star hotel</h3>
-              <p>Neque porro quisquam est, qui dolorem ipsum quia dqAolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Neque porro quisquam est, qui dolorem ipsum quia dqAolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi yu enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit.</p>
+              {{setting('about.about_text')}}
             </div>
             <div class="know-bot">
               <ul>
@@ -213,7 +194,7 @@
       <!-- Our Resort Values style-->
       <section class="container clearfix common-pad our-res">
         <div class="row">
-          <div class="col-md-4 col-sm-4 pull-left spa-offer">
+          {{-- <div class="col-md-4 col-sm-4 pull-left spa-offer">
             <div class="img_holder"><img src="{{asset('assets/images/our-resort/1.jpg')}}" alt="" class="img-responsive">
               <div class="overlay">
                 <div class="room-ad-cont">
@@ -223,8 +204,8 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-8 col-sm-8">
+          </div> --}}
+          <div class="col-md-12 col-sm-12">
             <div class="left-pad">
               <div class="sec-header">
                 <h2>Our Resort Values</h2>
@@ -242,71 +223,23 @@
                   <div class="col-md-12">
                     <div class="content-box">
                       <h2>Resort Quality</h2>
-                      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dict eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <ul>
-                            <li><i class="fa fa-arrow-circle-right"></i> Our Company Growth</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> 1000 Employed</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> Customer Relationship</li>
-                          </ul>
-                        </div>
-                        <div class="col-md-4">
-                          <ul>
-                            <li><i class="fa fa-arrow-circle-right"></i> Our Company Growth</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> 1000 Employed</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> Customer Relationship</li>
-                          </ul>
-                        </div>
-                      </div>
+                      {!!setting('about.about_quality')!!}
                     </div>
                   </div>
                 </div>
                 <div id="ourvision" class="single-tab-content tab-pane fade row">
                   <div class="col-md-12">
                     <div class="content-box">
-                      <h2>Resort Quality</h2>
-                      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dict eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <ul>
-                            <li><i class="fa fa-arrow-circle-right"></i> Our Company Growth</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> 1000 Employed</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> Customer Relationship</li>
-                          </ul>
-                        </div>
-                        <div class="col-md-4">
-                          <ul>
-                            <li><i class="fa fa-arrow-circle-right"></i> Our Company Growth</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> 1000 Employed</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> Customer Relationship</li>
-                          </ul>
-                        </div>
-                      </div>
+                      <h2>Our Vision</h2>
+                      {!!setting('about.about_our_vision')!!}
                     </div>
                   </div>
                 </div>
                 <div id="success" class="single-tab-content tab-pane fade row">
                   <div class="col-md-12">
                     <div class="content-box">
-                      <h2>Resort Quality</h2>
-                      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dict eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <ul>
-                            <li><i class="fa fa-arrow-circle-right"></i> Our Company Growth</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> 1000 Employed</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> Customer Relationship</li>
-                          </ul>
-                        </div>
-                        <div class="col-md-4">
-                          <ul>
-                            <li><i class="fa fa-arrow-circle-right"></i> Our Company Growth</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> 1000 Employed</li>
-                            <li><i class="fa fa-arrow-circle-right"></i> Customer Relationship</li>
-                          </ul>
-                        </div>
-                      </div>
+                      <h2>Our Success</h2>
+                      {!!setting('about.about_success')!!}
                     </div>
                   </div>
                 </div>
@@ -320,62 +253,25 @@
       <section class="promo-wrapper clearfix">
         <div class="promo-outer">
           <ul class="bxslider">
+            @foreach (App\Models\HomeTextSlider::all() as $slider)
             <li>
               <div class="promo-imgslider">
                 <div class="container">
                   <div class="promo-content">
                     <div class="row">
                       <div class="col-md-8 col-sm-8 col-xs-12">
-                        <h2>Am more than satisfied with the Resort</h2>
-                        <p>Tdolor sit amet, consectetur, adipis civelit sed quia non qui dolorem ipsum quia dolor sit amet, consectetur, adipis civelit. Red quia numquam eius modi. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet</p><a href="booking.html">more info</a>
+                        <h2>{{$slider->heading}}</h2>
+                        <p>{{$slider->sub_heading}}</p>
+                        @if ($slider->link)
+                        <a href="{{$slider->link}}">more info</a>
+                        @endif
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </li>
-            <li>
-              <div class="promo-imgslider">
-                <div class="container">
-                  <div class="promo-content">
-                    <div class="row">
-                      <div class="col-md-8 col-sm-8 col-xs-12">
-                        <h2>Am more than satisfied with the Resort</h2>
-                        <p>Tdolor sit amet, consectetur, adipis civelit sed quia non qui dolorem ipsum quia dolor sit amet, consectetur, adipis civelit. Red quia numquam eius modi. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet</p><a href="booking.html">more info</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="promo-imgslider">
-                <div class="container">
-                  <div class="promo-content">
-                    <div class="row">
-                      <div class="col-md-8 col-sm-8 col-xs-12">
-                        <h2>Am more than satisfied with the Resort</h2>
-                        <p>Tdolor sit amet, consectetur, adipis civelit sed quia non qui dolorem ipsum quia dolor sit amet, consectetur, adipis civelit. Red quia numquam eius modi. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet</p><a href="booking.html">more info</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="promo-imgslider">
-                <div class="container">
-                  <div class="promo-content">
-                    <div class="row">
-                      <div class="col-md-8 col-sm-8 col-xs-12">
-                        <h2>Am more than satisfied with the Resort</h2>
-                        <p>Tdolor sit amet, consectetur, adipis civelit sed quia non qui dolorem ipsum quia dolor sit amet, consectetur, adipis civelit. Red quia numquam eius modi. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet</p><a href="#">more info</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
+            @endforeach
           </ul>
         </div>
       </section>
@@ -414,7 +310,7 @@
       </section>
       <!-- Testimonials  Resort-->
       <!-- News and Events  style-->
-      <section class="clearfix news-wrapper">
+      {{-- <section class="clearfix news-wrapper">
         <section class="container clearfix common-pad">
           <div class="sec-header">
             <h2>News and Events</h2>
@@ -459,7 +355,7 @@
             </div>
           </div>
         </section>
-      </section>
+      </section> --}}
       <!-- News and Events  style-->
      
 @endsection
