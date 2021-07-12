@@ -95,10 +95,19 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-xs-12">
                       @foreach ($rooms as $room)
+                      @php
+                          $bnor= $room->booking_rooms->sum("number_of_rooms");
+                          if($bnor >= $room->number_of_rooms){
+                            continue;
+                          }
+                          $hnor=$room->room_holds->sum("number_of_rooms");
+                          $anor=$room->number_of_rooms - ($bnor + $hnor);
+                          // dd($bnor,$hnor,$room->number_of_rooms );
+                      @endphp
                           <!-- One-->
                       <div class="room-wrapper">
                         <div class="media">
-                          <div class="media-left"><a href="#"><img style="height: 20em; weight:30em" src="{{asset('storage/'.$room->image)}}" alt="{{$room->title}}"></a></div>
+                          <div class="media-left"><a href="#"><img style="width:25em" src="{{asset('storage/'.$room->image)}}" alt="{{$room->title}}"></a></div>
                           <div class="media-body">
                             <h2>{{$room->title}}</h2>
                             <p>{{$room->excerpt}}</p>
@@ -109,11 +118,19 @@
                             <p>৳{{$room->rent}}<span>Per Night</span></p>
                             <a href="{{route('room.single',['id'=>$room->id])}}">view room</a>
                             <div class="room-button">
-                              @if ($room->room_holds->count()>0)
+                              @if ($anor < 1)
                               <button class="btn btn-danger add_button" disabled>On 15 minutes hold</button>
                               @else
-                              <button onclick="addRoom(this,{{$room->id}},{{$room->rent}},'{{$room->title}}')" class="btn btn-success add_button add">Add to list</button>
-                              <button style="display: none;" onclick="removeRoom(this,{{$room->id}})" class="btn btn-warning add_button rem">Remove from list</button>
+                              {{-- <button onclick="addRoom(this,{{$room->id}},{{$room->rent}},'{{$room->title}}')" class="btn btn-success add_button add">Add to list</button>
+                              <button style="display: none;" onclick="removeRoom(this,{{$room->id}})" class="btn btn-warning add_button rem">Remove from list</button> --}}
+                              <div class="form-group add_button">
+                                <label>Number of room</label>
+                                <select onchange="addRoom(this,{{$room->id}},{{$room->rent}},'{{$room->title}}')"  class="form-control">
+                                  @for($i=0;$i<=$anor;$i++)
+                                  <option value="{{$i}}">{{$i}}</option>
+                                  @endfor
+                                </select>
+                              </div>
                               @endif
                             </div>
                           </div>
@@ -155,8 +172,8 @@
     var total=0;
     var h1=`<ul class="list-group list-group-flush">`;
     for(room of rooms){
-      total+=room.rent;
-      h1+=`<li class="list-group-item">`+room.title+`</li>`;
+      total+=room.rent * room.number_of_rooms;
+      h1+=`<li class="list-group-item">`+room.title+` X `+room.number_of_rooms+`</li>`;
     }
     h1+=`<ul>`;
     $("#rooms").html(h1);
@@ -169,29 +186,35 @@
     }
   }
   function addRoom(el,id,rent,title){
-    rooms.push({id:id,rent:rent,title:title});
-    $(el).hide();
-    $($($(el).closest(".room-button")).find(".rem")).show();
+    if(el.value<1){
+    removeRoom(id);
+    generatehtml();
+      return;
+    }
+    removeRoom(id);
+    rooms.push({id:id,rent:rent ,title:title,number_of_rooms:el.value});
+    // $(el).hide();
+    // $($($(el).closest(".room-button")).find(".rem")).show();
     generatehtml();
   }
-  function removeRoom(el,id){
+  function removeRoom(id){
     var rs=[];
     for(room of rooms){
       if(id!=room.id){
         rs.push(room);
       }
     }
-    $(el).hide();
-    $($($(el).closest(".room-button")).find(".add")).show();
+    // $(el).hide();
+    // $($($(el).closest(".room-button")).find(".add")).show();
     rooms=rs;
-    generatehtml();
+    // generatehtml();
   }
   function formSubmit(){
-    var ids=[];
+    var _rooms=[];
     for(room of rooms){
-      ids.push(room.id);
+      _rooms.push({id:room.id,quantity:room.number_of_rooms});
     }
-    $("#inp_rooms").val(JSON.stringify(ids));
+    $("#inp_rooms").val(JSON.stringify(_rooms));
     $("#submitForm").submit();
   }
 </script>

@@ -45,7 +45,7 @@
       <nav id="main-navigation-wrapper" class="navbar navbar-default transBg-main-menu-header _fixed-header _light-header stricky">
         <div class="container">
           <div class="navbar-header">
-            <button type="button" data-toggle="collapse" data-target="#main-navigation" aria-expanded="false" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="{{route("home")}}" class="navbar-brand"><img alt="Awesome Image" src="{{asset('storage/'.setting('site.logo'))}}" class="default-logo"><img src="{{asset('assets/images/header/logo2.png')}}" alt="Awesome Logo" class="secondary-logo"></a>
+            <button type="button" data-toggle="collapse" data-target="#main-navigation" aria-expanded="false" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="{{route("home")}}" class="navbar-brand"><img alt="Logo" src="{{asset('storage/'.setting('site.logo'))}}" class="default-logo"><img src="{{asset('storage/'.setting('site.logo'))}}" alt="Logo" class="secondary-logo"></a>
           </div>
           <div id="main-navigation" class="collapse navbar-collapse">
             {!!menu('User Main', 'bootstrap');!!}

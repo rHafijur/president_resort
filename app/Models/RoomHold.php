@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class RoomHold extends Model
 {
     use HasFactory;
-    protected $fillable=['check_in','check_out','till','session_id','room_id'];
+    protected $fillable=['check_in','check_out','till','session_id','room_id','number_of_rooms'];
 
     public function extendTime($minutes=15){
         $this->till=Carbon::now()->addMinutes($minutes);

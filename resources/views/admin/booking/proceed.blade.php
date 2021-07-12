@@ -145,9 +145,9 @@
                               <div id="rooms">
                                 <ul class="list-group list-group-flush">
                                     @foreach ($rooms as $room)
-                                        <li class="list-group-item">{{$room->title}}</li>
+                                        <li class="list-group-item">{{$room->title}} X {{$room->quantity}}</li>
                                         @php
-                                            $total+=$room->rent;
+                                            $total+=$room->rent * $room->quantity;
                                         @endphp
                                     @endforeach
                                 </ul>

@@ -62,7 +62,7 @@
                                             <td>{{$booking->nid}}</td>
                                             <td>
                                                 @foreach ($booking->booking_rooms as $b_room)
-                                                    <b>{{$b_room->room->title}}</b> - <strong>{{$b_room->checkInDate()}}</strong> -> <strong>{{$b_room->checkOutDate()}}</strong> <br>
+                                                    <b>{{$b_room->room->title}} X {{$b_room->number_of_rooms}} </b> - <strong>{{$b_room->checkInDate()}}</strong> -> <strong>{{$b_room->checkOutDate()}}</strong> <br>
                                                 @endforeach
                                             </td>
                                             <td>{{$booking->payment->amount}}</td>

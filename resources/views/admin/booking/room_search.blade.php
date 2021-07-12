@@ -52,7 +52,7 @@
                             <table id="dataTable" class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Mark to proceed</th>
+                                        <th>QTY</th>
                                         <th>ID</th>
                                         <th>Title</th>
                                         <th>Image</th>
@@ -61,10 +61,24 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($rooms as $room)
+                                        @php
+                                            $bnor= $room->booking_rooms->sum("number_of_rooms");
+                                            if($bnor >= $room->number_of_rooms){
+                                            continue;
+                                            }
+                                            $hnor=$room->room_holds->sum("number_of_rooms");
+                                            $anor=$room->number_of_rooms - ($bnor + $hnor);
+                                            // dd($bnor,$hnor,$room->number_of_rooms );
+                                        @endphp
                                         <tr>
                                             <td>
-                                                @if ($room->room_holds->count()<1)
-                                                <input onchange="inpChanged()" type="checkbox" class="inp_ids" name="room_id" value="{{$room->id}}">
+                                                @if ($anor>0)
+                                                {{-- <input onchange="inpChanged()" type="checkbox" class="inp_ids" name="room_id" value="{{$room->id}}"> --}}
+                                                <select onchange="addRoom(this,{{$room->id}})"  class="form-control">
+                                                    @for($i=0;$i<=$anor;$i++)
+                                                    <option value="{{$i}}">{{$i}}</option>
+                                                    @endfor
+                                                  </select>
                                                 @endif
                                             </td>
                                             <td>{{$room->id}}</td>
@@ -99,14 +113,34 @@
 @push('javascript')
     <script src="{{asset('assets/js/zebra_datepicker.js')}}"></script>
     <script>
-        function inpChanged(){
-            var ids=[];
-            for(el of $(".inp_ids")){
-                if(el.checked){
-                    ids.push(el.value);
-                }
+        var rooms=[];
+        // function inpChanged(){
+        //     var ids=[];
+        //     for(el of $(".inp_ids")){
+        //         if(el.checked){
+        //             ids.push(el.value);
+        //         }
+        //     }
+        //     $("#inp_rooms").val(JSON.stringify(ids));
+        // }
+        function addRoom(el,id){
+            if(el.value<1){
+            removeRoom(id);
+            return;
             }
-            $("#inp_rooms").val(JSON.stringify(ids));
+            removeRoom(id);
+            rooms.push({id:id,quantity:el.value});
+            $("#inp_rooms").val(JSON.stringify(rooms));
+            
+        }
+        function removeRoom(id){
+            var rs=[];
+            for(room of rooms){
+            if(id!=room.id){
+                rs.push(room);
+            }
+            }
+            rooms=rs;
         }
     </script>
     <script>

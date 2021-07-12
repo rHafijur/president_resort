@@ -8,7 +8,7 @@ use Carbon\Carbon;
 class BookingRoom extends Model
 {
     use HasFactory;
-    protected $fillable=['booking_id','room_id','check_in','check_out'];
+    protected $fillable=['booking_id','room_id','check_in','check_out','number_of_rooms'];
 
     public function room(){
         return $this->belongsTo('App\Models\Room');

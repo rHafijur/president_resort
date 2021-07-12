@@ -23,7 +23,7 @@ class Room extends Model
         }
         $in=Carbon::parse($check_in)->addHours(12)->addSecond();
         $out=Carbon::parse($check_out)->addHours(12);
-        return static::where('capacity',$adults + $children)->whereDoesntHave('booking_rooms',function($q) use($in,$out){
+        $data= static::where('capacity',">=",$adults + $children)->with(['booking_rooms'=>function($q) use($in,$out){
             $q->where(function($qu) use($in,$out){
                 return $qu->where('check_in',"<=",$in)->where('check_out','>=',$out);
             });
@@ -37,7 +37,7 @@ class Room extends Model
                 return $qu->where('check_in',">=",$in)->where('check_in',"<=",$out)->where('check_out','>=',$out);
             });
             return $q;
-        })->with(['room_holds'=>function($q) use($in,$out,$key){
+        }])->with(['room_holds'=>function($q) use($in,$out,$key){
             $q->where(function($q) use($in,$out){
                 $q->where(function($qu) use($in,$out){
                     return $qu->where('check_in',"<=",$in)->where('check_out','>=',$out);
@@ -55,8 +55,9 @@ class Room extends Model
             $q->where('till',">=",Carbon::now())->where("session_id","<>",$key);
             return $q;
         }])->get();
+        return $data;
     }
-    public function isHoldByOther($check_in,$check_out){
+    public function isHoldByOther($check_in,$check_out,$nor){
         $key=session('userkey');
         $in=Carbon::parse($check_in)->addHours(12)->addSecond();
         $out=Carbon::parse($check_out)->addHours(12);
@@ -73,8 +74,8 @@ class Room extends Model
             $q->orWhere(function($qu) use($in,$out){
                 return $qu->where('check_in',">=",$in)->where('check_in',"<=",$out)->where('check_out','>=',$out);
             });
-        })->where('till',">=",Carbon::now())->where("session_id","<>",$key)->get()->count();
-        if($holds>0){
+        })->where('till',">=",Carbon::now())->where("session_id","<>",$key)->get()->sum('number_of_rooms');
+        if($this->number_of_rooms < $holds + $nor){
             return true;
         }
         return false;
@@ -96,11 +97,11 @@ class Room extends Model
             $q->orWhere(function($qu) use($in,$out){
                 return $qu->where('check_in',">=",$in)->where('check_in',"<=",$out)->where('check_out','>=',$out);
             });
-        })->where('till',">=",Carbon::now())->where("session_id","<>",$key)->first();
+        })->where('till',">=",Carbon::now())->where("session_id",$key)->first();
 
         return $hold;
     }
-    public function holdRoomForMe($check_in,$check_out,$minutes=15){
+    public function holdRoomForMe($check_in,$check_out,$number_of_rooms,$minutes=15){
         $key=session('userkey');
         if($key==null){
             $key=uniqid();
@@ -112,6 +113,7 @@ class Room extends Model
             'check_in'=>$in,
             'check_out'=>$out,
             'session_id'=>$key,
+            'number_of_rooms'=>$number_of_rooms,
             'till'=>Carbon::now()->addMinutes($minutes)
         ]);
     }
