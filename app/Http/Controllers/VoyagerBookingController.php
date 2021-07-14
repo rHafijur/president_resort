@@ -10,11 +10,19 @@ class VoyagerBookingController extends \TCG\Voyager\Http\Controllers\VoyagerBase
 {
     public function index(Request $request){
         if($s= $request->s){
-            $bookings=Booking::where('id',$s)->orWhere('phone',$s)->orWhere('name','like',"%".$s."%")->orWhere('email',$s)->latest()->get();
+            $bookings=Booking::where('is_completed',1)->where('id',$s)->orWhere('phone',$s)->orWhere('name','like',"%".$s."%")->orWhere('email',$s)->latest()->get();
         }else{
-            $bookings=Booking::latest()->get();
+            $bookings=Booking::where('is_completed',1)->latest()->get();
         }
         return view('admin.booking.index',compact('bookings'));
+    }
+    public function incomplete(Request $request){
+        if($s= $request->s){
+            $bookings=Booking::where('is_completed',0)->where('id',$s)->orWhere('phone',$s)->orWhere('name','like',"%".$s."%")->orWhere('email',$s)->latest()->get();
+        }else{
+            $bookings=Booking::where('is_completed',0)->latest()->get();
+        }
+        return view('admin.booking.incomplete',compact('bookings'));
     }
     public function room_search(Request $request){
         $check_in=$request->check_in;

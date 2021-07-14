@@ -8,9 +8,10 @@
         margin-top: -12em !important;
     }
     .res{
-        margin-left: 12em !important;
-        margin-right: 12em !important;
+        /* margin-left: 12em !important;
+        margin-right: 12em !important; */
         margin-top: 7em !important;
+        margin-bottom: 7em !important;
     }
     .check_in_out{
       font-size: 15px;
@@ -96,7 +97,12 @@
                     <div class="col-lg-12 col-md-12 col-xs-12">
                       @foreach ($rooms as $room)
                       @php
-                          $bnor= $room->booking_rooms->sum("number_of_rooms");
+                          $bnor=0;
+                          foreach($room->booking_rooms as $br){
+                            if($br->booking){
+                              $bnor+=$br->number_of_rooms;
+                            }
+                          }
                           if($bnor >= $room->number_of_rooms){
                             continue;
                           }

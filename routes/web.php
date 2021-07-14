@@ -41,6 +41,7 @@ Route::get('booking/success',[BookingController::class,'booking_success'])->name
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
     Route::get('room/search',[VoyagerBookingController::class,'room_search'])->name('room_search');
+    Route::get('incomplete_bookings',[VoyagerBookingController::class,'incomplete'])->name('bookings.incomplete');
     Route::get('booking/proceed',[BookingController::class,'admin_proceed'])->name('admin.booking.proceed');
     Route::post('booking/book',[BookingController::class,'admin_book'])->name('admin.booking.book');
 });

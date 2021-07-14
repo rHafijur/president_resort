@@ -29,14 +29,14 @@
                 <form action="{{route('search')}}" method="get">
                 <div class="book-form">
                   <div class="col-md-12"><b>Arrive</b>
-                    <input id="check_in" name="check_in" placeholder="Arival Date" type="text" class="form-control datepicker-example8">
+                    <input id="check_in" name="check_in" placeholder="Arival Date" type="text" class="form-control datepicker-example8" required>
                   </div>
                   <div class="col-md-12"><b>Departure</b>
-                    <input id="check_out" name="check_out" type="text" placeholder="Departure Date" class="form-control datepicker-example8">
+                    <input id="check_out" name="check_out" type="text" placeholder="Departure Date" class="form-control datepicker-example8" required>
                   </div>
                   <div class="col-md-12"><b>Adults</b>
                     <div class="select-box">
-                      <select name="adults" class="select-menu">
+                      <select name="adults" class="select-menu" required>
                         <option value="">Adults</option>
                         <option value="1">1</option>
                         <option value="2">2</option>

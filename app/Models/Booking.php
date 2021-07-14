@@ -20,6 +20,7 @@ class Booking extends Model
         'post_code',
         'nid',
         'company',
+        'is_completed',
     ];
 
     public function payment(){

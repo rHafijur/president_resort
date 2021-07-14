@@ -13,6 +13,9 @@ class BookingRoom extends Model
     public function room(){
         return $this->belongsTo('App\Models\Room');
     }
+    public function booking(){
+        return $this->belongsTo('App\Models\Booking');
+    }
     public function checkInDate(){
         return Carbon::parse($this->check_in)->toFormattedDateString();
     }

@@ -9,9 +9,10 @@
         margin-top: -12em !important;
     }
     .res{
-        margin-left: 12em !important;
-        margin-right: 12em !important;
+        margin-left: 12px !important;
+        margin-right: 12px !important;
         margin-top: 7em !important;
+        margin-bottom: 7em !important;
     }
     .check_in_out{
       font-size: 15px;

@@ -62,7 +62,13 @@
                                 <tbody>
                                     @foreach ($rooms as $room)
                                         @php
-                                            $bnor= $room->booking_rooms->sum("number_of_rooms");
+                                            // $bnor= $room->booking_rooms->sum("number_of_rooms");
+                                            $bnor=0;
+                                            foreach($room->booking_rooms as $br){
+                                                if($br->booking){
+                                                $bnor+=$br->number_of_rooms;
+                                                }
+                                            }
                                             if($bnor >= $room->number_of_rooms){
                                             continue;
                                             }

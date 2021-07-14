@@ -28,12 +28,7 @@ class PaymentController extends Controller
             'children'=>'required',
             'rooms'=>'required',
         ]);
-        $arr=$request->only([
-            'address','city','country','postcode','check_in','check_out','adults','children','rooms','nid'
-        ]);
         $nights=Carbon::parse($request->check_in)->diffInDays(Carbon::parse($request->check_out));
-        $data=Crypt::encryptString(json_encode($arr));
-        $data=str_split($data,255);
         // dd($data);
         // $rooms=Room::whereIn('id',\json_decode($request->rooms))->get();
         $rooms=[];
@@ -61,6 +56,26 @@ class PaymentController extends Controller
         foreach($rooms as $room){
             $total += $room->rent * $room->quantity * $nights;
         }
+        $booking= Booking::create([
+            // 'payment_id'=>$payment->id,
+            'name'=>$request->name,
+            'email'=>$request->cus_email,
+            'phone'=>$request->email,
+            'address'=>$request->address,
+            'city'=>$request->city,
+            'country'=>$request->country,
+            'post_code'=>$request->postcode,
+            'nid'=>$request->nid 
+            ]);
+            foreach(\json_decode($request->rooms) as $room){
+                $booking->booking_rooms()->create([
+                    'room_id'=>$room->id,
+                    'number_of_rooms'=>$room->quantity,
+                    'check_in'=>Carbon::parse($request->check_in)->addHours(12)->addSecond(),
+                    'check_out'=>Carbon::parse($request->check_out)->addHours(12),
+                ]);
+            }
+        $data=Crypt::encryptString($booking->id);
         if(setting('amarpay.sandbox')==1){
             $url = 'https://sandbox.aamarpay.com/request.php';
         }else{
@@ -99,10 +114,10 @@ class PaymentController extends Controller
             // 'opt_b' => $request->check_in.";".$request->check_out,
             // 'opt_c' => $data,
             // 'opt_d' => "{$request->adults} {$request->children}",
-            'opt_a' => isset($data[0])?$data[0]:"",
-            'opt_b' => isset($data[1])?$data[1]:"",
-            'opt_c' => isset($data[2])?$data[2]:"",
-            'opt_d' => isset($data[3])?$data[3]:"",
+            'opt_a' => $data,
+            'opt_b' => "",
+            'opt_c' => "",
+            'opt_d' => "",
             'signature_key' => setting('amarpay.amarpay_signature_key')
         );
         $fields_string="";
@@ -126,11 +141,7 @@ class PaymentController extends Controller
     }
 
     public function success(Request $request){
-        $data=$request->opt_a!=null?$request->opt_a:'';
-        $data.=$request->opt_b!=null?$request->opt_b:'';
-        $data.=$request->opt_c!=null?$request->opt_c:'';
-        $data.=$request->opt_d!=null?$request->opt_d:'';
-        $data=\json_decode(Crypt::decryptString($data));
+        $booking_id=Crypt::decryptString($request->opt_a);
         // dd($data);
         // dd($request);
         // ['customer_id','amount','method_name','transaction_id','pg_service_charge','store_amount'];
@@ -141,45 +152,22 @@ class PaymentController extends Controller
             'pg_service_charge'=>$request->pg_service_charge_bdt,
             'transaction_id'=>$request->pg_txnid
         ]);
-        // 'customer_id',
-        // 'payment_id',
-        // 'name',
-        // 'email',
-        // 'phone',
-        // 'address',
-        // 'city',
-        // 'country',
-        // 'postcode',
-        // 'nid',
-        // 'company',
-        $booking= Booking::create([
-        'payment_id'=>$payment->id,
-        'name'=>$request->cus_name,
-        'email'=>$request->cus_email,
-        'phone'=>$request->cus_phone,
-        'address'=>$data->address,
-        'city'=>$data->city,
-        'country'=>$data->country,
-        'post_code'=>$data->postcode,
-        'nid'=>$data->nid 
-        ]);
-        foreach(\json_decode($data->rooms) as $room){
-            $booking->booking_rooms()->create([
-                'room_id'=>$room->id,
-                'number_of_rooms'=>$room->quantity,
-                'check_in'=>Carbon::parse($data->check_in)->addHours(12)->addSecond(),
-                'check_out'=>Carbon::parse($data->check_out)->addHours(12),
-            ]);
-        }
+        $booking=Booking::find($booking_id);
+        $booking->is_completed=1;
+        $booking->payment_id=$payment->id;
+        $booking->save();
+        
         return redirect()->route('booking_success')->with('status','Package is purchaged successfully');
     }
     public function cancel(Request $request){
         // return redirect()->route('student.packages')->with('error','Payment unsuccessfull');
         // dd($request);
+        return view('main.booking_failed');
     }
     public function failed(Request $request){
         // return redirect()->route('student.packages')->with('error','Payment unsuccessfull');
         // dd($request);
+        return view('main.booking_failed');
     }
     public function all(Request $request){
         $payments=Payment::select("*");
