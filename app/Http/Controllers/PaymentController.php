@@ -59,8 +59,8 @@ class PaymentController extends Controller
         $booking= Booking::create([
             // 'payment_id'=>$payment->id,
             'name'=>$request->name,
-            'email'=>$request->cus_email,
-            'phone'=>$request->email,
+            'email'=>$request->email,
+            'phone'=>$request->phone,
             'address'=>$request->address,
             'city'=>$request->city,
             'country'=>$request->country,
