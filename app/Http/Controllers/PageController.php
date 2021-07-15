@@ -7,6 +7,7 @@ use App\Models\Room;
 use App\Models\RoomHold;
 use App\Models\Testimonial;
 use App\Models\EmailSubscription;
+use App\Models\ContactMessage;
 use App\Models\Page;
 use Carbon\Carbon;
 
@@ -42,6 +43,10 @@ class PageController extends Controller
     }
     public function news(){
 
+    }
+    public function contact(Request $request){
+        ContactMessage::create($request->only(['name','email','subject','body']));
+        return redirect()->back()->with('message','Thanks for contacting us. We will reply back ASAP.');
     }
     public function page($slug){
         $page=Page::where('slug',$slug)->firstOrFail();

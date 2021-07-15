@@ -26,6 +26,8 @@ Route::get('/',[PageController::class,'index'])->name('home');
 Route::get('/news',[PageController::class,'news'])->name('news');
 Route::get('/page/{slug}',[PageController::class,'page'])->name('page');
 Route::post('/email-subscribe',[PageController::class,'emailSubscribe'])->name('email_subscribe');
+Route::view('/contact-us','main.contact')->name('contact');
+Route::post('/contact-us',[PageController::class,'contact'])->name('contact.submit');
 Route::get('/search',[PageController::class,'search'])->name('search');
 Route::get('/booking/proceed',[BookingController::class,'proceed'])->name('booking.proceed');
 Route::post('/payment',[PaymentController::class,'payment'])->name('payment');
